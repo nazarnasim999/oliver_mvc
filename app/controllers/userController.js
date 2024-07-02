@@ -3,8 +3,10 @@ const bcrypt = require('bcrypt');
 
 exports.getUsers = async (req, res) => {
     try {
-        const users = await User.findAll();
-        res.json(users);
+        // const users = await User.findAll();
+        const currentUser = req.user;
+        const users = req.body
+        res.json({currentUser , message:users});
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
@@ -18,14 +20,14 @@ exports.loginUser = async (req, res) => {
     console.log('email', email)
 
     try {
-        // Check if the user exists
+       
         const user = await User.findOne({  where: { email } });
 
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        // Compare the password provided with the hashed password in the database
+        
         const isMatch = await bcrypt.compare(password, user.password);
 
         console.log(isMatch);
@@ -34,7 +36,16 @@ exports.loginUser = async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        // Passwords match, create a session or token, and respond with success
+
+        req.session.user = {
+            id: user.id,
+            email: user.email,
+           
+        };
+
+        console.log('usersssss', req.session.user)
+
+       
         res.status(200).json({ user, message: 'Login successful' });
     } catch (error) {
         console.error(error);

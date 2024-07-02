@@ -3,17 +3,40 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const sequelize = require('./config/database');
 const userRoutes = require('./routes/index');
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+require('dotenv').config();
 
 const app = express();
 
-// Middleware
+
 app.use(cors());
 app.use(bodyParser.json());
 
-// Routes
+
+
+const sessionStore = new SequelizeStore({
+    db: sequelize,
+  });
+  
+
+  sessionStore.sync();
+  
+
+  app.use(session({
+    secret: process.env.SESSION_SECRET, 
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 2 * 60 * 60 * 1000, 
+    },
+  }));
+
+
 app.use('/api', userRoutes);
 
-// Connect to database and start server
+
 sequelize.sync()
     .then(() => {
         app.listen(5000, () => {
