@@ -43,7 +43,7 @@ exports.loginUser = async (req, res) => {
            
         };
 
-        console.log('usersssss', req.session.user)
+        console.log('usersssss', req.session)
 
        
         res.status(200).json({ user, message: 'Login successful' });
@@ -56,13 +56,13 @@ exports.loginUser = async (req, res) => {
 exports.createUser = async (req, res) => {
     console.log(req.body);
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, type } = req.body;
 
-        // Hashing the password
-        const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
+        
+        const hashedPassword = await bcrypt.hash(password, 10); 
 
-        // Create a new user with hashed password
-        const newUser = await User.create({ name, email, password: hashedPassword });
+       
+        const newUser = await User.create({ name, email, password: hashedPassword, type });
 
         res.status(201).json({
             user: newUser,
@@ -73,3 +73,59 @@ exports.createUser = async (req, res) => {
         res.status(500).send('Server Error');
     }
 }
+
+
+
+
+exports.updateUser = async (req, res) => {
+    try {
+        const { userId } = req.body; 
+        console.log('ddddd' , req.body)
+       
+
+        const { firstname, lastname, email,
+            password, mobile,
+            address, city,country,
+            qualification, experience,
+            
+            about } = req.body; 
+
+
+            console.log('idss', userId);
+
+       
+        const user = await User.findByPk(userId); 
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+
+        const hashedPassword = await bcrypt.hash(password, 10); 
+
+       
+        user.firstname = firstname;
+        user.lastname = lastname;
+
+        user.email = email;
+        user.mobile = mobile;
+        user.address = address;
+        user.city = city;
+        user.country = country;
+        user.qualification = qualification;
+        user.experience = experience;
+       
+        user.about = about;
+
+
+
+
+        user.password = hashedPassword;
+
+        await user.save(); 
+
+        res.json({ message: 'User updated successfully', user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
