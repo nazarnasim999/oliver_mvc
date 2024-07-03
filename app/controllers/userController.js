@@ -14,6 +14,23 @@ exports.getUsers = async (req, res) => {
 };
 
 
+exports.getprofile = async (req, res) => {
+    const { id } = req.query;
+  try {
+    const user = await User.findOne({ where: { id } });
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the profile' });
+  }
+};
+
+
+
 
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;

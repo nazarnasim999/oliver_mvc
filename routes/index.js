@@ -14,4 +14,7 @@ router.post('/updateuser',  userController.updateUser);
 router.post('/signup', userController.createUser);
 
 
+router.get('/getprofile',  userController.getprofile);
+
+
 module.exports = router;
