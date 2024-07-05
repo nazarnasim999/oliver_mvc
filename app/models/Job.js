@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
-const AppliedJob = require('./AppliedJob');
 
 const Job = sequelize.define('Job', {
     id: {
@@ -44,6 +43,38 @@ const Job = sequelize.define('Job', {
         allowNull: true,
     
     },
+
+    rejected: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    
+    },
+
+
+    shortlisted: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    
+    },
+
+
+    completed: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    
+    },
+
+
+    applied: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
+    
+    },
+
 
 
 }, {

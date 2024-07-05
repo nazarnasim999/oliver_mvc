@@ -1,5 +1,9 @@
 const Job = require('../models/Job');
 const AppliedJob = require('../models/AppliedJob');
+// const { sequelize } = require('../models');
+
+const {Op} = require('sequelize');
+const sequelize = require('../../config/database');
 
 
 
@@ -141,16 +145,46 @@ exports.Applyjob = async (req, res) => {
 
 
 
+
 exports.getApplication = async (req, res) => {
     const { id } = req.query;
-    console.log(id);
     try {
-        const [jobs] = await sequelize.query(`
+        const jobs = await sequelize.query(`
             SELECT jobs.*
             FROM jobs
             JOIN appliedjobs ON jobs.id = appliedjobs.job_id
-            WHERE appliedjobs.user_id = 14;
-        `);
+            WHERE appliedjobs.user_id = :userId;
+        `, {
+            replacements: { userId: id },
+            type: sequelize.QueryTypes.SELECT
+        });
+        
+        res.json({ jobs });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
+
+
+exports.getPitch = async (req, res) => {
+    const { id } = req.query;
+
+    console.log('achivee' , id)
+    try {
+        const jobs = await sequelize.query(`
+            
+
+
+            SELECT jobs.*, appliedjobs.*
+            FROM jobs
+            JOIN appliedjobs ON jobs.id = appliedjobs.job_id
+            WHERE jobs.instructor_id = :instructorId;
+        `, {
+            replacements: { instructorId: id },
+            type: sequelize.QueryTypes.SELECT
+        });
         
         res.json({ jobs });
     } catch (err) {

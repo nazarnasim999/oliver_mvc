@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
-const Job = require('./Job');
+
 
 const AppliedJob = sequelize.define('AppliedJob', {
     id: {
@@ -12,10 +12,7 @@ const AppliedJob = sequelize.define('AppliedJob', {
     job_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        references: {
-            model: Job,
-            key: 'id',
-        }
+       
     },
 
 
@@ -45,7 +42,7 @@ const AppliedJob = sequelize.define('AppliedJob', {
     timestamps: true
 });
 
-console.log('hey', Job);
+
 
 // AppliedJob.belongsTo(Job, { foreignKey: 'job_id' , as: 'JobsDetails' });
 
