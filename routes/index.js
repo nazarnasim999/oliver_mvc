@@ -17,4 +17,7 @@ router.post('/signup', userController.createUser);
 router.get('/getprofile',  userController.getprofile);
 
 
+router.post('/post_documents',userController.update_users_doc)
+
+
 module.exports = router;
