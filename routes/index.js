@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../app/controllers/userController');
+const jobController = require('../app/controllers/jobController');
+
 const auth = require('../middleware/auth');
 
 router.get('/users', auth, userController.getUsers);
@@ -15,6 +17,12 @@ router.post('/signup', userController.createUser);
 
 
 router.get('/getprofile',  userController.getprofile);
+router.get('/getjobs',  jobController.getJobs);
+router.get('/instructorjobs',  jobController.instructorjob);
+router.post('/savejob',  jobController.SaveJob);
+
+
+
 
 
 module.exports = router;
