@@ -20,6 +20,10 @@ router.get('/getprofile',  userController.getprofile);
 router.get('/getjobs',  jobController.getJobs);
 router.get('/instructorjobs',  jobController.instructorjob);
 router.post('/savejob',  jobController.SaveJob);
+router.post('/applyjob',  jobController.Applyjob);
+router.get('/getApplication',  jobController.getApplication);
+
+
 
 
 
