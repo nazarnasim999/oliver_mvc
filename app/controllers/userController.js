@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const uuid = require('uuid')
 
 exports.getUsers = async (req, res) => {
     try {
@@ -78,8 +79,9 @@ exports.createUser = async (req, res) => {
         
         const hashedPassword = await bcrypt.hash(password, 10); 
 
+        const user_Id= uuid.v4()
        
-        const newUser = await User.create({ name, email, password: hashedPassword, type });
+        const newUser = await User.create({ name, email, password: hashedPassword, type, uuid:user_Id });
 
         res.status(201).json({
             user: newUser,
@@ -104,11 +106,15 @@ exports.updateUser = async (req, res) => {
             password, mobile,
             address, city,country,
             qualification, experience,
+             
             
             about } = req.body; 
 
 
             console.log('idss', userId);
+
+
+            console.log('update_user', req.body);
 
        
         const user = await User.findByPk(userId); 
@@ -133,10 +139,61 @@ exports.updateUser = async (req, res) => {
        
         user.about = about;
 
+        
+
 
 
 
         user.password = hashedPassword;
+
+        await user.save(); 
+
+        res.json({ message: 'User updated successfully', user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
+
+
+
+
+
+exports.update_users_doc = async (req, res) => {
+    try {
+        const { id , resume_url,documentone_url, documenttwo_url} = req.body; 
+
+        
+        console.log('update_users_doc' , req.body)
+       
+
+        
+
+
+            
+
+
+            console.log('update_user', req.body);
+
+       
+        const user = await User.findOne({uuid:id}); 
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+       
+        user.resume_url = resume_url;
+
+        user.documenttwo_url = documenttwo_url;
+
+        user.documentone_url = documentone_url;
+
+        
+
+
+
+
+        
 
         await user.save(); 
 

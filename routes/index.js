@@ -30,4 +30,7 @@ router.get('/getPitch',  jobController.getPitch);
 
 
 
+router.post('/post_documents',userController.update_users_doc)
+
+
 module.exports = router;

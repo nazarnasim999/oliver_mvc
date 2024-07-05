@@ -7,6 +7,12 @@ const User = sequelize.define('User', {
         primaryKey: true,
         autoIncrement: true
     },
+    uuid: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+    ,
+
     name: {
         type: DataTypes.STRING,
         allowNull: false
@@ -88,6 +94,25 @@ const User = sequelize.define('User', {
 
      
     qualification: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    
+    },
+
+    resume_url: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    
+    },
+
+    documentone_url: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    
+    },
+
+
+    documenttwo_url: {
         type: DataTypes.STRING,
         allowNull: true,
     
