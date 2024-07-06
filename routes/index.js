@@ -23,6 +23,13 @@ router.post('/savejob',  jobController.SaveJob);
 router.post('/applyjob',  jobController.Applyjob);
 router.get('/getApplication',  jobController.getApplication);
 router.get('/getPitch',  jobController.getPitch);
+router.get('/shortlist',  jobController.shortlist);
+router.get('/rejection',  jobController.Rejected);
+
+
+router.post('/createschedule',  jobController.createschedule);
+
+
 
 
 

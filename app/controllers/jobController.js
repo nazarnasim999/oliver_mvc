@@ -4,6 +4,7 @@ const AppliedJob = require('../models/AppliedJob');
 
 const {Op} = require('sequelize');
 const sequelize = require('../../config/database');
+const Interviewschedule = require('../models/Interviewschedule');
 
 
 
@@ -187,6 +188,131 @@ exports.getPitch = async (req, res) => {
         });
         
         res.json({ jobs });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
+
+exports.shortlist = async (req, res) => {
+    const { id } = req.query;
+    const { user_id } = req.query;
+
+    console.log('id' , id)
+    try {
+        const job = await Job.findByPk(id);
+        job.shortlisted = 1;
+        job.applied = 0;
+        await job.save(); 
+        const jobs = await sequelize.query(`
+            
+
+
+            SELECT jobs.*, appliedjobs.*
+            FROM jobs
+            JOIN appliedjobs ON jobs.id = appliedjobs.job_id
+            WHERE jobs.instructor_id = :instructorId;
+        `, {
+            replacements: { instructorId: user_id },
+            type: sequelize.QueryTypes.SELECT
+        });  
+
+        res.json({jobs});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
+
+
+
+exports.Rejected = async (req, res) => {
+    const { id } = req.query;
+    const { user_id } = req.query;
+
+    console.log('id' , id)
+    try {
+        const job = await Job.findByPk(id);
+        job.rejected = 1;
+        job.applied = 0;
+        await job.save(); 
+        const jobs = await sequelize.query(`
+            
+
+
+            SELECT jobs.*, appliedjobs.*
+            FROM jobs
+            JOIN appliedjobs ON jobs.id = appliedjobs.job_id
+            WHERE jobs.instructor_id = :instructorId;
+        `, {
+            replacements: { instructorId: user_id },
+            type: sequelize.QueryTypes.SELECT
+        });  
+
+        res.json({jobs});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
+
+
+
+exports.createschedule = async (req, res) => {
+    const { userId } = req.body; 
+        const { jobId } = req.body; 
+
+        console.log('ddddd' , req.body)
+       
+
+        const { interviewDate, interviewTime
+            
+            } = req.body; 
+
+
+            console.log('idss', userId);
+
+       
+        const job = await new Interviewschedule; 
+       
+
+
+       
+        job.date = interviewDate;
+        job.time = interviewTime;
+
+      
+        job.job_id = jobId;
+       
+     
+
+        await job.save(); 
+
+   
+    try {
+        const job = await Job.findByPk(jobId);
+        job.shortlisted = 0;
+        job.applied = 0;
+        job.completed = 1;
+
+        await job.save(); 
+        const jobs = await sequelize.query(`
+            
+
+
+            SELECT jobs.*, appliedjobs.*
+            FROM jobs
+            JOIN appliedjobs ON jobs.id = appliedjobs.job_id
+            WHERE jobs.instructor_id = :instructorId;
+        `, {
+            replacements: { instructorId: userId },
+            type: sequelize.QueryTypes.SELECT
+        });  
+
+        res.json({message: 'Successfully', jobs});
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');

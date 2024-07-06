@@ -3,10 +3,10 @@ const { Sequelize } = require('sequelize');
 
 
 
-const sequelize = new Sequelize('mvc', 'root', '', {
-    host: 'localhost',
+const sequelize = new Sequelize('u976218528_mvc', 'u976218528_mvc', 'Explore999', {
+    host: 'srv1140.hstgr.io',
     dialect: 'mysql',
-    logging: false
+    // logging: false
 });
 
 
