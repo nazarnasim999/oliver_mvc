@@ -237,7 +237,7 @@ app.use('/api', userRoutes);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000', // Allow all origins for simplicity, adjust as needed
+    origin: 'https://7seasnetwork.appssols.com', // Allow all origins for simplicity, adjust as needed
   },
 });
 
