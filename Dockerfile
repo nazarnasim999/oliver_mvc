@@ -1,5 +1,5 @@
 # Use the official Node.js image as the base image
-FROM node:16
+FROM node:20
 
 # Create and change to the app directory
 WORKDIR /app
@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy application dependency manifests to the container image
 COPY package*.json ./
 
-# Install production dependencies
-RUN npm ci
+# Install dependencies
+RUN npm install
 
 # Copy local code to the container image
 COPY . .
