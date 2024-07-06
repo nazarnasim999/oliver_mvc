@@ -208,7 +208,7 @@ const Chat = require('./app/models/Chat');
 const app = express();
 
 app.use(cors({
-  origin: 'https://7seasnetwork.appssols.com',
+  // origin: 'http://localhost:3000',
   credentials: true,
 }));
 
@@ -237,7 +237,7 @@ app.use('/api', userRoutes);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'https://7seasnetwork.appssols.com', // Allow all origins for simplicity, adjust as needed
+    // origin: 'http://localhost:3000', 
   },
 });
 
