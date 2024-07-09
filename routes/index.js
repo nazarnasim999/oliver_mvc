@@ -48,4 +48,8 @@ router.post('/deletejobdetails',jobController.deletejobdetails)
 router.post('/post_documents',userController.update_users_doc)
 
 
+
+router.post('/gettrackingstatus',jobController.get_tracking_status)
+
+
 module.exports = router;

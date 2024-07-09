@@ -207,54 +207,67 @@ exports.update_users_doc = async (req, res) => {
 };
 
 
-exports.get_instructor_job_requests = async (req, res) => {
-    try {
-        const { id } = req.params;
+// exports.get_instructor_job_requests = async (req, res) => {
+//     try {
+//         const { id } = req.params;
 
-        // Fetch jobs related to the instructor ID
-        const user = await Job.findAll({ where: { instructor_id: id } });
+//         console.log("ppppppppppppppppppppppppppppppppp")
 
-        // Check if user exists
-        if (!user || user.length === 0) {
-            return res.status(404).json({ message: 'User not found' });
-        }
+//         // Fetch jobs related to the instructor ID
+//         const user = await Job.findAll({ where: { instructor_id: id } });
 
-        console.log("TS", user, "INSTRUCTOR_ID");
-        const Applied_Jobs_Arr = [];
+//         // Check if user exists
+//         if (!user || user.length === 0) {
+//             return res.status(404).json({ message: 'User not found' });
+//         }
 
-        user.forEach(async element => {
-            console.log(element.id)
+//         console.log("TS", user, "INSTRUCTOR_ID");
+//         const Applied_Jobs_Arr = [];
 
-            const applied_jobs= await AppliedJob.findOne({job_id:element.id})
-            Applied_Jobs_Arr.push(applied_jobs)
-            console.log(applied_jobs,"pp")
-        });
+//         user.forEach(async element => {
+//             console.log(element.id)
 
-        // const Applied_Jobs_Arr = [];
+//             const applied_jobs= await AppliedJob.findOne({job_id:element.id})
+//             Applied_Jobs_Arr.push(applied_jobs)
+//             console.log(applied_jobs,"pp")
+//         });
 
-        // // Retrieve AppliedJob objects associated with each job ID
-        // const jobPromises = user.map(async (element) => {
-        //     console.log(element.id, "TwertS");
-        //     const job = await AppliedJob.findOne({ job_id: element.id });
-        //     console.log("mmm", job.email, "pop");
-        //     return job ? job.toJSON() : null; // Ensure you handle cases where job might be null
-        // });
+//         // const Applied_Jobs_Arr = [];
 
-        // // Wait for all promises to resolve
-        // const jobs = await Promise.all(jobPromises);
+//         // // Retrieve AppliedJob objects associated with each job ID
+//         // const jobPromises = user.map(async (element) => {
+//         //     console.log(element.id, "TwertS");
+//         //     const job = await AppliedJob.findOne({ job_id: element.id });
+//         //     console.log("mmm", job.email, "pop");
+//         //     return job ? job.toJSON() : null; // Ensure you handle cases where job might be null
+//         // });
 
-        // // Filter out null values in case some jobs are not found
-        // Applied_Jobs_Arr.push(...jobs.filter(job => job !== null));
+//         // // Wait for all promises to resolve
+//         // const jobs = await Promise.all(jobPromises);
 
-        // console.log(Applied_Jobs_Arr);
-        // console.log(Applied_Jobs_Arr, "APPLIED JOB");
+//         // // Filter out null values in case some jobs are not found
+//         // Applied_Jobs_Arr.push(...jobs.filter(job => job !== null));
 
-        res.json({ message: 'User updated successfully', Applied_Jobs_Arr });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
-    }
-};
+//         // console.log(Applied_Jobs_Arr);
+//         // console.log(Applied_Jobs_Arr, "APPLIED JOB");
+        
+            
+//             res.json({ message: 'User updated successfully', Applied_Jobs_Arr });
+
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Server Error');
+//     }
+// };
+
+
+
+ 
+
+
+
+
+
 
 
 exports.get_instructor_job_requests = async (req, res) => {
@@ -290,6 +303,8 @@ exports.get_instructor_job_requests = async (req, res) => {
     }
 };
 
+
+// ts
 
 
 

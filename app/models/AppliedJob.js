@@ -37,6 +37,38 @@ const AppliedJob = sequelize.define('AppliedJob', {
       
     },
 
+    
+    rejected: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    
+    },
+
+
+    shortlisted: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    
+    },
+
+
+    completed: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    
+    },
+
+
+    applied: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
+    
+    },
+
 
 }, {
     timestamps: true
