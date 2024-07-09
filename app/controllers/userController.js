@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-const uuid = require('uuid')
+const uuid = require('uuid');
+const AppliedJob = require('../models/AppliedJob');
+const Job = require('../models/Job');
 
 exports.getUsers = async (req, res) => {
     try {
@@ -203,3 +205,164 @@ exports.update_users_doc = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+
+exports.get_instructor_job_requests = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Fetch jobs related to the instructor ID
+        const user = await Job.findAll({ where: { instructor_id: id } });
+
+        // Check if user exists
+        if (!user || user.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        console.log("TS", user, "INSTRUCTOR_ID");
+        const Applied_Jobs_Arr = [];
+
+        user.forEach(async element => {
+            console.log(element.id)
+
+            const applied_jobs= await AppliedJob.findOne({job_id:element.id})
+            Applied_Jobs_Arr.push(applied_jobs)
+            console.log(applied_jobs,"pp")
+        });
+
+        // const Applied_Jobs_Arr = [];
+
+        // // Retrieve AppliedJob objects associated with each job ID
+        // const jobPromises = user.map(async (element) => {
+        //     console.log(element.id, "TwertS");
+        //     const job = await AppliedJob.findOne({ job_id: element.id });
+        //     console.log("mmm", job.email, "pop");
+        //     return job ? job.toJSON() : null; // Ensure you handle cases where job might be null
+        // });
+
+        // // Wait for all promises to resolve
+        // const jobs = await Promise.all(jobPromises);
+
+        // // Filter out null values in case some jobs are not found
+        // Applied_Jobs_Arr.push(...jobs.filter(job => job !== null));
+
+        // console.log(Applied_Jobs_Arr);
+        // console.log(Applied_Jobs_Arr, "APPLIED JOB");
+
+        res.json({ message: 'User updated successfully', Applied_Jobs_Arr });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
+
+exports.get_instructor_job_requests = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Fetch jobs related to the instructor ID
+        const jobs = await Job.findAll({ where: { instructor_id: id } });
+
+        // Check if jobs exist
+        if (!jobs || jobs.length === 0) {
+            return res.status(404).json({ message: 'No jobs found for this instructor' });
+        }
+
+        console.log("Jobs related to instructor:", jobs);
+
+        const Applied_Jobs_Arr = [];
+
+        // Fetch applied jobs for each job asynchronously
+        for (let i = 0; i < jobs.length; i++) {
+            const job = jobs[i];
+            const applied_job = await AppliedJob.findOne({ where: { job_id: job.id } });
+            Applied_Jobs_Arr.push(applied_job);
+            console.log("Applied Job for job ID", job.id, ":", applied_job);
+        }
+
+        console.log("Applied Jobs Array:", Applied_Jobs_Arr);
+
+        res.json({ message: 'User updated successfully', Applied_Jobs_Arr });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
+
+
+
+
+// exports.get_instructor_job_requests = async (req, res) => {
+//     try {
+//         const { id } = req.params; 
+
+        
+//         console.log('update_users_doc_TS' , id)
+       
+
+        
+
+
+            
+
+
+//             // console.log('update_user', req.body);
+
+       
+//         const user = await Job.findAll({instructor_id:id}); 
+//         if (!user) {
+//             return res.status(404).json({ message: 'User not found' });
+//         }
+       
+//         console.log("TS",user,"INSTRUCTOR_ID")
+//         const Applied_Jobs_Arr=[]
+
+//         // user.forEach(async element => {
+            
+//         //     console.log(element.id,"TwertS")
+
+//         //     const job= await AppliedJob.findOne({job_id:element.id})
+
+//         //     console.log("mmm",job,"pop")
+            
+//         //     Applied_Jobs_Arr.push(job.email)
+
+            
+//         // });
+        
+
+//         const jobPromises = user.map(async (element) => {
+//             console.log(element.id, "TwertS");
+//             const job = await AppliedJob.findOne({ job_id: element.id });
+//             console.log("mmm", job.email, "pop");
+//             return job ? job : null; // Ensure you handle cases where job might be null
+//         });
+    
+//         // Wait for all promises to resolve
+//         const jobs = await Promise.all(jobPromises);
+    
+//         // Filter out null values in case some jobs are not found
+//         Applied_Jobs_Arr.push(...jobs.filter(email => email !== null));
+    
+//         console.log(Applied_Jobs_Arr);
+
+
+
+//         console.log(Applied_Jobs_Arr,"APPLIED JOB")
+        
+
+
+
+
+        
+
+     
+
+//         res.json({ message: 'User updated successfully', Applied_Jobs_Arr });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Server Error');
+//     }
+// };

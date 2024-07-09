@@ -32,8 +32,16 @@ router.post('/createschedule',  jobController.createschedule);
 
 
 
+router.get('/getinstructorjobrequest/:id',userController.get_instructor_job_requests)
 
 
+
+
+
+router.post('/updatejobdetails',jobController.updatejobdetails)
+
+
+router.post('/deletejobdetails',jobController.deletejobdetails)
 
 
 

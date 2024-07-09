@@ -319,3 +319,62 @@ exports.createschedule = async (req, res) => {
     }
 };
 
+
+
+exports.updatejobdetails= async (req,res)=>{
+
+try {
+
+    const {stack,description,location,type,job,budget}= req.body
+        console.log(stack,description,location,type,job,budget,"updatejob")
+
+
+        const update = await Job.findByPk(job.id)
+
+        console.log(update,"popop")
+        update.title=stack;
+        update.description=description;
+        update.location=location;
+        update.budget=budget;
+        update.type=type
+
+        update.save()
+
+        res.json({
+            message:true
+        })
+
+
+} catch (error) {
+    console.log(error)
+}
+
+}
+
+
+
+
+exports.deletejobdetails= async (req,res)=>{
+
+    try {
+    
+        const {job}= req.body
+            console.log(job.id,"updatejob")
+    
+    
+            const update = await Job.destroy({where:{id:job.id}})
+    
+            console.log(update,"popop")
+            
+            
+    
+            res.json({
+                message:true
+            })
+    
+    
+    } catch (error) {
+        console.log(error)
+    }
+    
+    }
