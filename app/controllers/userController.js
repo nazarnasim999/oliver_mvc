@@ -179,7 +179,11 @@ exports.update_users_doc = async (req, res) => {
             console.log('update_user', req.body);
 
        
-        const user = await User.findOne({uuid:id}); 
+        // const user = await User.findOne({uuid:id}); 
+        const user = await User.findOne({ where: { uuid: id }}); 
+
+
+        console.log('userss', user);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }

@@ -294,11 +294,12 @@ io.on('connection', (socket) => {
 
 
 });
+const PORT = process.env.PORT || 5000
 
 sequelize.sync()
   .then(() => {
-    server.listen(5000, () => {
-      console.log('Server is running on http://localhost:5000');
+    server.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
     });
   })
   .catch(err => console.error('Unable to connect to the database:', err));
